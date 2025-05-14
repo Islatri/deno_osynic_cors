@@ -20,6 +20,7 @@ async function handleRequest(request: Request): Promise<Response> {
   
   // 移除开头的斜杠并获取目标 URL
   const pathname = url.pathname.substring(1); // 去掉开头的 "/"
+  // 判断是否是https://osu.ppy.sh/api/开头，不是则返回错误
   
   // 检查是否提供了有效的 URL
   if (!pathname) {
@@ -31,6 +32,15 @@ async function handleRequest(request: Request): Promise<Response> {
     });
   }
   
+  if (!pathname.startsWith("https://osu.ppy.sh/api/")) {
+    return new Response("请在路径中提供正确的osu!api调用 \n例如: /https://osu.ppy.sh/api/get_beatmaps?k=&s=114514", { 
+      status: 400,
+      headers: {
+        "Access-Control-Allow-Origin": allowOrigin
+      }
+    });
+  }
+
   // 构造目标 URL（确保包含 http:// 或 https://）
   if (pathname.startsWith("http://") || pathname.startsWith("https://")) {
     targetURL = pathname;
