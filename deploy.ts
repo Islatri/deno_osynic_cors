@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.178.0/http/server.ts";
 
 // 不再需要指定PORT，Deno Deploy会自动处理
-const ALLOWED_ORIGINS = ["https://osuapi.osynic.moe"]; // 生产环境中应限制为特定域名
+const ALLOWED_ORIGINS = ["https://osynic-osuapi.deno.dev"]; // 生产环境中应限制为特定域名
 
 async function handleRequest(request: Request): Promise<Response> {
   // 处理CORS逻辑 - 获取请求的Origin
