@@ -72,7 +72,7 @@ https://osynic-cors.deno.dev/https://osu.ppy.sh/api/get_beatmaps?k=您的API密�
 3. 运行以下命令：
 
 ```bash
-deno run --allow-net server.ts
+deno run --allow-net deploy.ts
 ```
 
 ### 本地调试代理服务器

@@ -72,7 +72,7 @@ The server will return the following errors:
 3. Run the following command:
 
 ```bash
-deno run --allow-net server.ts
+deno run --allow-net deploy.ts
 ```
 
 ### Local Debugging Proxy Server
