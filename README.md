@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD029 -->
 # osynic-cors.deno.dev - OSU API CORS 代理服务
 
 [中文版本](README.md) | [English Version](README_EN.md)
@@ -73,6 +74,54 @@ https://osynic-cors.deno.dev/https://osu.ppy.sh/api/get_beatmaps?k=您的API密�
 ```bash
 deno run --allow-net server.ts
 ```
+
+### 本地调试代理服务器
+
+如果你想在本地搭建代理服务器进行调试，可以使用 `proxy_server.ts` 文件：
+
+1. 确保已安装 [Deno](https://deno.land/)
+
+2. 在项目目录下运行：
+
+```bash
+deno run --allow-net proxy_server.ts
+```
+
+3. 服务器将在 `http://localhost:8000` 启动
+
+4. 使用方式与线上服务类似，例如：
+
+```bash
+# 访问 OSU API
+http://localhost:8000/https://osu.ppy.sh/api/get_beatmaps?k=您的API密钥&s=114514
+
+# 或代理其他任意 API
+http://localhost:8000/https://api.example.com/endpoint
+```
+
+5. 修改允许的源站（可选）：
+
+在 `proxy_server.ts` 中修改 `ALLOWED_ORIGINS` 配置：
+
+```typescript
+// 允许所有源站（开发环境）
+const ALLOWED_ORIGINS = ["*"];
+
+// 或限制特定源站（生产环境推荐）
+const ALLOWED_ORIGINS = ["https://yourdomain.com", "http://localhost:3000"];
+```
+
+6. 查看日志：
+
+服务器会在控制台输出详细的请求日志，方便调试：
+
+```bash
+CORS 代理服务器运行在 http://localhost:8000
+使用示例: http://localhost:8000/https://osu.ppy.sh/api/get_beatmaps?k=&s=114514
+代理请求到: https://osu.ppy.sh/api/get_beatmaps?k=xxx&s=114514
+```
+
+**注意**：`proxy_server.ts` 默认允许所有源站访问（`ALLOWED_ORIGINS = ["*"]`），适合本地开发和调试使用。在生产环境中应该限制为特定域名。
 
 ## 配置选项
 

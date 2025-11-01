@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD029 -->
 # osynic-cors.deno.dev - OSU API CORS Proxy
 
 [中文版本](README.md) | [English Version](README_EN.md)
@@ -73,6 +74,54 @@ The server will return the following errors:
 ```bash
 deno run --allow-net server.ts
 ```
+
+### Local Debugging Proxy Server
+
+If you want to set up a local proxy server for debugging, you can use the `proxy_server.ts` file:
+
+1. Ensure [Deno](https://deno.land/) is installed
+
+2. Run in the project directory:
+
+```bash
+deno run --allow-net proxy_server.ts
+```
+
+3. The server will start at `http://localhost:8000`
+
+4. Usage is similar to the online service, for example:
+
+```bash
+# Access OSU API
+http://localhost:8000/https://osu.ppy.sh/api/get_beatmaps?k=your-api-key&s=114514
+
+# Or proxy any other API
+http://localhost:8000/https://api.example.com/endpoint
+```
+
+5. Modify allowed origins (optional):
+
+Edit the `ALLOWED_ORIGINS` configuration in `proxy_server.ts`:
+
+```typescript
+// Allow all origins (development environment)
+const ALLOWED_ORIGINS = ["*"];
+
+// Or restrict to specific origins (recommended for production)
+const ALLOWED_ORIGINS = ["https://yourdomain.com", "http://localhost:3000"];
+```
+
+6. View logs:
+
+The server will output detailed request logs in the console for debugging:
+
+```bash
+CORS proxy server running at http://localhost:8000
+Usage example: http://localhost:8000/https://osu.ppy.sh/api/get_beatmaps?k=&s=114514
+Proxy request to: https://osu.ppy.sh/api/get_beatmaps?k=xxx&s=114514
+```
+
+**Note**: `proxy_server.ts` allows all origins by default (`ALLOWED_ORIGINS = ["*"]`), which is suitable for local development and debugging. In production environments, you should restrict it to specific domains.
 
 ## Configuration Options
 
