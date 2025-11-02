@@ -1,4 +1,4 @@
-import { serve } from "https://deno.land/std@0.178.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 
 // 不再需要指定PORT，Deno Deploy会自动处理
 const ALLOWED_ORIGINS = ["https://osynic-osuapi.deno.dev"]; // 生产环境中应限制为特定域名

@@ -1,4 +1,4 @@
-import { serve } from "https://deno.land/std@0.178.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 
 const PORT = 8000;
 const ALLOWED_ORIGINS = ["*"]; // 生产环境中应限制为特定域名，例如 ["https://yourdomain.com", "https://app.yourdomain.com"]
