@@ -69,69 +69,54 @@ https://osynic-cors.deno.dev/https://osu.ppy.sh/api/get_beatmaps?k=您的API密�
 
 1. 安装 [Deno](https://deno.land/)
 2. 克隆代码库
-3. 运行以下命令：
+3. 在项目目录下运行相应命令：
+
+#### 使用任务命令（推荐）
 
 ```bash
+# 启动本地调试服务器（运行 proxy_server.ts）
+deno task dev
+
+# 运行部署版本（Deno Deploy）
+deno task deploy
+
+# 代码格式化
+deno task fmt
+
+# 代码检查
+deno task lint
+
+# 类型检查
+deno task check
+```
+
+#### 直接运行（不使用任务）
+
+```bash
+# 本地调试
+deno run --allow-net proxy_server.ts
+
+# 部署版本
 deno run --allow-net deploy.ts
 ```
 
-### 本地调试代理服务器
+### 本地调试配置
 
-如果你想在本地搭建代理服务器进行调试，可以使用 `proxy_server.ts` 文件：
+- 服务器将在 `http://localhost:8000` 启动
+- 访问示例：`http://localhost:8000/https://osu.ppy.sh/api/get_beatmaps?k=YOUR_KEY&s=114514`
+- `proxy_server.ts` 默认允许所有源站（`ALLOWED_ORIGINS = ["*"]`），适合开发用
 
-1. 确保已安装 [Deno](https://deno.land/)
+### 配置源站白名单
 
-2. 在项目目录下运行：
-
-```bash
-deno run --allow-net proxy_server.ts
-```
-
-3. 服务器将在 `http://localhost:8000` 启动
-
-4. 使用方式与线上服务类似，例如：
-
-```bash
-# 访问 OSU API
-http://localhost:8000/https://osu.ppy.sh/api/get_beatmaps?k=您的API密钥&s=114514
-
-# 或代理其他任意 API
-http://localhost:8000/https://api.example.com/endpoint
-```
-
-5. 修改允许的源站（可选）：
-
-在 `proxy_server.ts` 中修改 `ALLOWED_ORIGINS` 配置：
+在 `proxy_server.ts` 或 `deploy.ts` 中修改 `ALLOWED_ORIGINS`：
 
 ```typescript
-// 允许所有源站（开发环境）
+// 开发环境：允许所有源站
 const ALLOWED_ORIGINS = ["*"];
 
-// 或限制特定源站（生产环境推荐）
+// 生产环境：限制特定源站（推荐）
 const ALLOWED_ORIGINS = ["https://yourdomain.com", "http://localhost:3000"];
 ```
-
-6. 查看日志：
-
-服务器会在控制台输出详细的请求日志，方便调试：
-
-```bash
-CORS 代理服务器运行在 http://localhost:8000
-使用示例: http://localhost:8000/https://osu.ppy.sh/api/get_beatmaps?k=&s=114514
-代理请求到: https://osu.ppy.sh/api/get_beatmaps?k=xxx&s=114514
-```
-
-**注意**：`proxy_server.ts` 默认允许所有源站访问（`ALLOWED_ORIGINS = ["*"]`），适合本地开发和调试使用。在生产环境中应该限制为特定域名。
-
-## 配置选项
-
-在代码中，您可以修改以下配置：
-
-```typescript
-const ALLOWED_ORIGINS = ["https://osynic-osuapi.deno.dev"]; // 允许的源站列表
-```
-
-您可以根据需要添加更多允许的源站，或设置为 `["*"]` 允许所有源站（不推荐用于生产环境）。
 
 ## 安全性考虑
 

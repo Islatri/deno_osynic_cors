@@ -1,0 +1,25 @@
+{
+  "tasks": {
+    "dev": "deno run --allow-net proxy_server.ts",
+    "deploy": "deno run --allow-net deploy.ts",
+    "fmt": "deno fmt",
+    "lint": "deno lint",
+    "check": "deno check proxy_server.ts deploy.ts"
+  },
+  "imports": {
+    "std/": "https://deno.land/std@0.224.0/"
+  },
+  "fmt": {
+    "proseWrap": "always",
+    "semiColons": true,
+    "singleQuote": false,
+    "indentWidth": 2
+  },
+  "lint": {
+    "rules": {
+      "tags": [
+        "recommended"
+      ]
+    }
+  }
+}

@@ -115,7 +115,8 @@ async function handleRequest(request: Request): Promise<Response> {
     });
   } catch (error) {
     console.error("代理错误:", error);
-    return new Response(`代理错误: ${error.message}`, { 
+    const message = error instanceof Error ? error.message : String(error);
+    return new Response(`代理错误: ${message}`, { 
       status: 500,
       headers: {
         "Access-Control-Allow-Origin": allowOrigin
