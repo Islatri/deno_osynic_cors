@@ -100,6 +100,25 @@ deno run --allow-net proxy_server.ts
 deno run --allow-net deploy.ts
 ```
 
+### 环境变量配置
+
+本项目支持通过 `.env` 文件或环境变量进行配置。创建或编辑项目根目录下的 `.env` 文件：
+
+```properties
+# 你的 Web 应用 URL (CORS 白名单)，多个 URL 请用逗号分隔
+WEBAPP_URLS=http://localhost:5173,https://yourdomain.com
+```
+
+**环境变量说明：**
+
+| 环境变量 | 说明 | 示例值 | 是否必需 |
+|---------|------|-------|--------|
+| `WEBAPP_URLS` | Web 应用 URL 白名单，多个 URL 用逗号分隔 | `http://localhost:5173,https://yourdomain.com` | 否 |
+
+- 如果未设置 `WEBAPP_URLS`，默认值为 `http://localhost:5173`
+- 支持多个域名，使用逗号分隔（逗号前后的空格会被自动清理）
+- 生产环境强烈建议设置具体的域名白名单而非使用通配符
+
 ### 本地调试配置
 
 - 服务器将在 `http://localhost:8000` 启动
@@ -108,7 +127,7 @@ deno run --allow-net deploy.ts
 
 ### 配置源站白名单
 
-在 `proxy_server.ts` 或 `deploy.ts` 中修改 `ALLOWED_ORIGINS`：
+在部署到 Deno Deploy 时，系统会自动读取 `.env` 文件中的 `WEBAPP_URLS` 来配置白名单。如需手动配置，可在 `proxy_server.ts` 或 `deploy.ts` 中修改 `ALLOWED_ORIGINS`：
 
 ```typescript
 // 开发环境：允许所有源站

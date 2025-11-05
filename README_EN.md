@@ -100,6 +100,25 @@ deno run --allow-net proxy_server.ts
 deno run --allow-net deploy.ts
 ```
 
+### Environment Variables Configuration
+
+This project supports configuration through the `.env` file or environment variables. Create or edit the `.env` file in the project root directory:
+
+```properties
+# Your Web Application URLs (CORS whitelist), multiple URLs separated by commas
+WEBAPP_URLS=http://localhost:5173,https://yourdomain.com
+```
+
+**Environment Variables Description:**
+
+| Environment Variable | Description | Example | Required |
+|-----|------|---------|----------|
+| `WEBAPP_URLS` | Web application URL whitelist, multiple URLs separated by commas | `http://localhost:5173,https://yourdomain.com` | No |
+
+- If `WEBAPP_URLS` is not set, the default value is `http://localhost:5173`
+- Multiple domains are supported, separated by commas (whitespace around commas is automatically trimmed)
+- In production environments, it is strongly recommended to set specific domain whitelists instead of using wildcards
+
 ### Local Debug Configuration
 
 - The server will start at `http://localhost:8000`
@@ -108,7 +127,7 @@ deno run --allow-net deploy.ts
 
 ### Configure Origin Whitelist
 
-Edit the `ALLOWED_ORIGINS` in `proxy_server.ts` or `deploy.ts`:
+When deploying to Deno Deploy, the system automatically reads the `WEBAPP_URLS` from the `.env` file to configure the whitelist. To manually configure, you can edit the `ALLOWED_ORIGINS` in `proxy_server.ts` or `deploy.ts`:
 
 ```typescript
 // Development environment: allow all origins

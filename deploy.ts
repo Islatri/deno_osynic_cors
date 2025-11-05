@@ -1,7 +1,23 @@
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
+import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
+
+// 加载 .env 文件（如果存在）
+let env: Record<string, string> = {};
+try {
+  env = await load();
+} catch (error) {
+  // 在部署环境中可能没有 .env 文件，这是正常的
+  const errMsg = error instanceof Error ? error.message : String(error);
+  console.error("⚠️ .env file not found, proceeding with environment variables:", errMsg);
+  console.log("ℹ️ .env file not found, using environment variables instead");
+}
+
+const webappUrlsString = env.WEBAPP_URLS || Deno.env.get("WEBAPP_URLS") || "http://localhost:5173";
+const webappUrls = webappUrlsString.split(",").map((url: string) => url.trim());
+console.log("允许的 Web 应用 URL:", webappUrls);
 
 // 不再需要指定PORT，Deno Deploy会自动处理
-const ALLOWED_ORIGINS = ["https://osynic-osuapi.deno.dev"]; // 生产环境中应限制为特定域名
+const ALLOWED_ORIGINS = webappUrls.length > 0 ? webappUrls : ["*"];
 
 async function handleRequest(request: Request): Promise<Response> {
   // 处理CORS逻辑 - 获取请求的Origin
