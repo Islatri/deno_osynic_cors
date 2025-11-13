@@ -48,7 +48,7 @@ async function handleRequest(request: Request): Promise<Response> {
     });
   }
   
-  if (!pathname.startsWith("https://osu.ppy.sh/api/")) {
+  if (!pathname.startsWith("https://osu.ppy.sh/")) {
     return new Response("请在路径中提供正确的osu!api调用 \n例如: /https://osu.ppy.sh/api/get_beatmaps?k=&s=114514", { 
       status: 400,
       headers: {
